@@ -1,28 +1,40 @@
 package com.ivand.LinkShortener.services
 
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.atomic.AtomicLong
 
 
 @Service
 class DefaultKeyMapperService : KeyMapperService {
 
-    private val map: MutableMap<String, String> = ConcurrentHashMap()
+    @Autowired
+    lateinit var converter:KeyConverterService
 
-    override fun add(key: String, link: String): KeyMapperService.Add {
-        return if (map.containsKey(key)) {
-            KeyMapperService.Add.AlreadyExists(key)
-        } else {
-            map.put(key, link)
-            KeyMapperService.Add.Success(key, link)
+    val sequence = AtomicLong(10000000L)
+    private val map: MutableMap<Long, String> = ConcurrentHashMap()
+
+    override fun getLink(key: String): KeyMapperService.Get {
+        val id = converter.keyToId(key)
+        val result = map[id]
+        if(result==null){
+            return KeyMapperService.Get.NotFound(key);
+        }else{
+            return KeyMapperService.Get.Link(result)
         }
     }
 
-    override fun getLink(key: String): KeyMapperService.Get = if (map.containsKey(key)) {
-        KeyMapperService.Get.Link(map.get(key)!!)
-    } else {
-        KeyMapperService.Get.NotFound(key)
+
+
+    override fun add(link: String): String {
+        val id = sequence.getAndIncrement()
+        val key = converter.idToKey(id)
+        map.put(id,link)
+        return key
     }
 
 
 }
+
+
