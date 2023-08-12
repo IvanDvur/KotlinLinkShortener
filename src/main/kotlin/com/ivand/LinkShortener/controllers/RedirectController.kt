@@ -4,6 +4,7 @@ import com.ivand.LinkShortener.services.KeyMapperService
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 
@@ -15,7 +16,10 @@ class RedirectController{
     @Autowired
     private lateinit var service: KeyMapperService
 
-    @RequestMapping("/{key}")
+    @GetMapping("/")
+    fun getHomeView() ="home";
+
+    @GetMapping("/{key}")
     fun redirect(@PathVariable(name = "key") key: String, response: HttpServletResponse) {
         val result = service.getLink(key)
         when(result){
@@ -28,6 +32,9 @@ class RedirectController{
             }
         }
     }
+
+
+
 
     companion object {
         private val HEADER_NAME = "Location"

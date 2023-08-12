@@ -1,0 +1,16 @@
+spring:
+  liquibase:
+    change-log: classpath:db-changelog.xml
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:6000/postgres
+    username: postgres
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    database: postgresql
+link:
+  prefix: "http://localhost:8080/"
+

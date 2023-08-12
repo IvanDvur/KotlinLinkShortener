@@ -22,10 +22,14 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-	testImplementation("org.dbunit:dbunit:2.4.3")
-	testImplementation("com.github.springtestdbunit:spring-test-dbunit:1.3.0")
+	implementation("org.liquibase:liquibase-core:4.23.0")
+	// https://mvnrepository.com/artifact/org.postgresql/postgresql
+	implementation("org.postgresql:postgresql:42.6.0")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
+	testImplementation("org.dbunit:dbunit:2.7.3")
+	testImplementation("com.github.springtestdbunit:spring-test-dbunit:1.3.0")
+	testImplementation("com.h2database:h2:2.2.220")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
